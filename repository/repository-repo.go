@@ -106,7 +106,8 @@ func IsExists(device_id string) bool {
 	doc := client.Collection(collectionName).Doc(device_id)
 	docSnap, err := doc.Get(ctx)
 	if err != nil {
-		log.Fatalf("Failed to get document: %v", err)
+
+		fmt.Println("Device already exist")
 	}
 	if docSnap.Exists() {
 		return true
