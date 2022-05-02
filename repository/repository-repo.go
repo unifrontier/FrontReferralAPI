@@ -14,7 +14,7 @@ type DeviceRepository struct {
 	Save     func(record *entity.Device) error
 	Find     func(referrer_id string) (*entity.Device, error)
 	FindAll  func() ([]entity.Device, error)
-	IsExists func(unique_id string) bool
+	IsExists func(device_id string) bool
 	Update   func(referrer_id string, device_id string)
 }
 
@@ -103,13 +103,15 @@ func IsExists(device_id string) bool {
 	}
 	defer client.Close()
 
-	doc := client.Collection(collectionName).Doc(device_id)
-	docSnap, err := doc.Get(ctx)
-	if err != nil {
-
-		fmt.Println("Device already exist")
-	}
-	if docSnap.Exists() {
+	iter := client.Collection(collectionName).Where("DeviceID", "==", device_id).Documents(ctx)
+	for {
+		_, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Failed to iterate: %v", err)
+		}
 		return true
 	}
 	return false
