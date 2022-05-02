@@ -18,7 +18,7 @@ func main() {
 	// router.Handle("/", http.FileServer(http.Dir("./template")))
 
 	router.HandleFunc("/referrals/create", ReferralData).Methods("POST")
-	router.HandleFunc("/referrals/:device_id", GetData).Methods("GET")
+	router.HandleFunc("/referrals/{device_id}", GetDevice).Methods("GET")
 	log.Println("Server listening on port", port)
 	log.Fatalln(http.ListenAndServe(port, router))
 	// log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))

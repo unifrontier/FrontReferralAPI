@@ -5,6 +5,7 @@ import (
 	"FrontReferralAPI/referral_code"
 	"FrontReferralAPI/repository"
 	"encoding/json"
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -33,7 +34,7 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 		response.WriteHeader(409) // Send response
 		json.NewEncoder(response).Encode("Device already exists")
 	} else {
-		existing_record, err := repo.Find(referrer_id) // Find the record by referral code
+		existing_record, err := repo.FindByReferrer(referrer_id) // Find the record by referral code
 		if err != nil {
 			response.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(response).Encode(err)
@@ -48,16 +49,24 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func GetData(response http.ResponseWriter, request *http.Request) {
+// get device by device_id
+func GetDevice(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
 	params := mux.Vars(request)
 	device_id := params["device_id"]
-	record, err := repo.Find(device_id)
+	fmt.Println("Device ID: ", device_id)
+	record, err := repo.FindDevice(device_id)
+	fmt.Println("Record: ", record)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(response).Encode(err)
 		return
 	}
-	response.WriteHeader(http.StatusOK)
+	if record == nil {
+		response.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(response).Encode("Device not found")
+		return
+	}
+	response.WriteHeader(http.StatusOK) // Send response
 	json.NewEncoder(response).Encode(record)
 }

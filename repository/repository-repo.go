@@ -11,21 +11,23 @@ import (
 )
 
 type DeviceRepository struct {
-	Save     func(record *entity.Device) error
-	Find     func(referrer_id string) (*entity.Device, error)
-	FindAll  func() ([]entity.Device, error)
-	IsExists func(device_id string) bool
-	Update   func(referrer_id string, device_id string)
+	Save           func(record *entity.Device) error
+	FindByReferrer func(referrer_id string) (*entity.Device, error)
+	FindAll        func() ([]entity.Device, error)
+	IsExists       func(device_id string) bool
+	Update         func(referrer_id string, device_id string)
+	FindDevice     func(device_id string) (*entity.Device, error)
 }
 
 // NewRepository returns a new repository
 func NewRepository() DeviceRepository {
 	return DeviceRepository{
-		Save:     Save,
-		Find:     Find,
-		FindAll:  FindAll,
-		IsExists: IsExists,
-		Update:   Update,
+		Save:           Save,
+		FindByReferrer: FindByReferrer,
+		FindAll:        FindAll,
+		IsExists:       IsExists,
+		Update:         Update,
+		FindDevice:     FindDevice,
 	}
 }
 
@@ -49,7 +51,7 @@ func Save(record *entity.Device) error {
 	return nil
 }
 
-func Find(referrer_id string) (*entity.Device, error) {
+func FindByReferrer(referrer_id string) (*entity.Device, error) {
 	ctx := context.Background()
 	client, err := firestore.NewClient(ctx, projectID)
 	if err != nil {
@@ -138,4 +140,29 @@ func Update(referrer_id string, device_id string) {
 	if err != nil {
 		log.Fatalf("Failed to set data: %v", err)
 	}
+}
+
+func FindDevice(device_id string) (*entity.Device, error) {
+	ctx := context.Background()
+	client, err := firestore.NewClient(ctx, projectID)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
+
+	iter := client.Collection(collectionName).Where("DeviceID", "==", device_id).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Failed to iterate: %v", err)
+		}
+
+		var record entity.Device
+		doc.DataTo(&record)
+		return &record, nil
+	}
+	return nil, nil
 }
