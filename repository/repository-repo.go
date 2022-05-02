@@ -3,6 +3,7 @@ package repository
 import (
 	"FrontReferralAPI/entity"
 	"context"
+	"fmt"
 	"log"
 
 	"cloud.google.com/go/firestore"
@@ -59,13 +60,12 @@ func Find(referrer_id string) (*entity.Device, error) {
 	doc := client.Collection(collectionName).Doc(referrer_id)
 	docSnap, err := doc.Get(ctx)
 	if err != nil {
-		log.Fatalf("Failed to get document: %v", err)
+		fmt.Println("Referrer not Found")
 	}
 
 	var record entity.Device
 	docSnap.DataTo(&record)
 	return &record, nil
-
 }
 
 func FindAll() ([]entity.Device, error) {
