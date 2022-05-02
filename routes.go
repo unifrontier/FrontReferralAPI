@@ -6,9 +6,7 @@ import (
 	"FrontReferralAPI/repository"
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net/http"
-	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -17,39 +15,42 @@ var (
 	repo repository.DeviceRepository = repository.NewRepository()
 )
 
+// create referral code "/referrals/{device_id}/create"
 func ReferralData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
-
-	rand.Seed(time.Now().UnixNano())
 	var record entity.Device
-	device_id := "00004"
-	referrer_id := "C047BA"
+
+	params := mux.Vars(request)               // Get params
+	device_id := params["device_id"]          // Get device_id
+	referrer_id := "9189C9"                   // Get referrer_id
 	unique_id := referral_code.RandomString() // 6 digit random string referral code
 	record.DeviceID = device_id               // Serial Number of the device
 	record.UniqueID = unique_id               // Referral Code for particular user referral
 	record.ReferrerID = referrer_id           // Referred ID
-	// Save all data to firestore
-	existing_device := repo.IsExists(device_id)
+
+	existing_device := repo.IsExists(device_id) // Check if device already exists
 	if existing_device {
-		response.WriteHeader(409) // Send response
+		response.WriteHeader(http.StatusNotFound) // Send response
 		json.NewEncoder(response).Encode("Device already exists")
 	} else {
-		existing_record, err := repo.FindByReferrer(referrer_id) // Find the record by referral code
+		existing_referrer, err := repo.FindByReferrer(referrer_id) // Check if referrer already exists
 		if err != nil {
 			response.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(response).Encode(err)
 			return
 		}
-		if existing_record.UniqueID == referrer_id {
+		if existing_referrer.UniqueID == referrer_id {
 			repo.Update(referrer_id, device_id)
+			response.WriteHeader(http.StatusOK) // Send response
+			json.NewEncoder(response).Encode(existing_referrer)
 		}
 		repo.Save(&record)
-		response.WriteHeader(http.StatusOK) // Send response
-		json.NewEncoder(response).Encode(record)
+		response.WriteHeader(http.StatusOK)      // Send response
+		json.NewEncoder(response).Encode(record) // Send response
 	}
 }
 
-// get device by device_id
+// get device by device_id "/referrals/{device_id}"
 func GetDevice(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
 	params := mux.Vars(request)
