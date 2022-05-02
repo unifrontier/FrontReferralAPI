@@ -5,8 +5,6 @@ import (
 	"FrontReferralAPI/referral_code"
 	"FrontReferralAPI/repository"
 	"encoding/json"
-	"fmt"
-	"log"
 	"math/rand"
 	"net/http"
 	"time"
@@ -23,27 +21,26 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 
 	rand.Seed(time.Now().UnixNano())
 	var record entity.Device
-	device_id := "00003"
-	referrer_id := "F79E7A"
+	device_id := "00004"
+	referrer_id := "C047BA"
 	unique_id := referral_code.RandomString() // 6 digit random string referral code
 	record.DeviceID = device_id               // Serial Number of the device
 	record.UniqueID = unique_id               // Referral Code for particular user referral
 	record.ReferrerID = referrer_id           // Referred ID
 	// Save all data to firestore
 	existing_device := repo.IsExists(device_id)
-	fmt.Println("Existing Device: ", existing_device)
-	if existing_device == true {
-		fmt.Println("Device already exists")
-		response.WriteHeader(http.StatusOK) // Send response
-		json.NewEncoder(response).Encode(record)
+	if existing_device {
+		response.WriteHeader(409) // Send response
+		json.NewEncoder(response).Encode("Device already exists")
 	} else {
 		existing_record, err := repo.Find(referrer_id) // Find the record by referral code
 		if err != nil {
-			log.Println(err)
+			response.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(response).Encode(err)
+			return
 		}
 		if existing_record.UniqueID == referrer_id {
 			repo.Update(referrer_id, device_id)
-			fmt.Println(existing_record.ReferredIDS)
 		}
 		repo.Save(&record)
 		response.WriteHeader(http.StatusOK) // Send response
