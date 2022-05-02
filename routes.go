@@ -23,8 +23,8 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 
 	rand.Seed(time.Now().UnixNano())
 	var record entity.Device
-	device_id := "00000"
-	referrer_id := "FIRST"
+	device_id := "00001"
+	referrer_id := "E31BCF"
 	unique_id := referral_code.RandomString() // 6 digit random string referral code
 	record.DeviceID = device_id               // Serial Number of the device
 	record.UniqueID = unique_id               // Referral Code for particular user referral
@@ -37,14 +37,13 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 	fmt.Println(existing_record)
 	if existing_record.UniqueID == referrer_id {
 		fmt.Println("Record exists")
-		repo.Update(device_id)
+		repo.Update(referrer_id, device_id)
 		// existing_record.ReferredIDS = append(existing_record.ReferredIDS, device_id)
 		fmt.Println(existing_record.ReferredIDS)
-	} else {
-		repo.Save(&record)
-		response.WriteHeader(http.StatusOK) // Send response
-		json.NewEncoder(response).Encode(record)
 	}
+	repo.Save(&record)
+	response.WriteHeader(http.StatusOK) // Send response
+	json.NewEncoder(response).Encode(record)
 }
 
 func GetData(response http.ResponseWriter, request *http.Request) {

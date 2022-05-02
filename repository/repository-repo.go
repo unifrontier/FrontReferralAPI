@@ -14,7 +14,7 @@ type DeviceRepository struct {
 	Find     func(referrer_id string) (*entity.Device, error)
 	FindAll  func() ([]entity.Device, error)
 	IsExists func(unique_id string) bool
-	Update   func(device_id string)
+	Update   func(referrer_id string, device_id string)
 }
 
 // NewRepository returns a new repository
@@ -65,6 +65,7 @@ func Find(referrer_id string) (*entity.Device, error) {
 	var record entity.Device
 	docSnap.DataTo(&record)
 	return &record, nil
+
 }
 
 func FindAll() ([]entity.Device, error) {
@@ -113,7 +114,7 @@ func IsExists(device_id string) bool {
 	return false
 }
 
-func Update(device_id string) {
+func Update(referrer_id string, device_id string) {
 	ctx := context.Background()
 	client, err := firestore.NewClient(ctx, projectID)
 	if err != nil {
@@ -121,7 +122,7 @@ func Update(device_id string) {
 	}
 	defer client.Close()
 
-	doc := client.Collection(collectionName).Doc(device_id)
+	doc := client.Collection(collectionName).Doc(referrer_id)
 	docSnap, err := doc.Get(ctx)
 	if err != nil {
 		log.Fatalf("Failed to get document: %v", err)
