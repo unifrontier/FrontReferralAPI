@@ -16,6 +16,7 @@ type DeviceRepository struct {
 	FindAll        func() ([]entity.Device, error)
 	Update         func(referrer_id string, device_id string)
 	FindDevice     func(device_id string) (*entity.Device, error)
+	CountReferredIDS func(device_id string) int
 }
 
 // NewRepository returns a new repository
@@ -26,6 +27,7 @@ func NewRepository() DeviceRepository {
 		FindAll:        FindAll,
 		Update:         Update,
 		FindDevice:     FindDevice,
+		CountReferredIDS: CountReferredIDS,
 	}
 }
 
@@ -140,4 +142,30 @@ func FindDevice(device_id string) (*entity.Device, error) {
 		return &record, nil
 	}
 	return nil, nil
+}
+
+//count the number of referredids in the device
+func CountReferredIDS(device_id string) int {
+	ctx := context.Background()
+	client, err := firestore.NewClient(ctx, projectID)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
+
+	iter := client.Collection(collectionName).Where("DeviceID", "==", device_id).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Failed to iterate: %v", err)
+		}
+
+		var record entity.Device
+		doc.DataTo(&record)
+		return len(record.ReferredIDS)
+	}
+	return 0
 }

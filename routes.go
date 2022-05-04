@@ -15,7 +15,7 @@ var (
 	repo repository.DeviceRepository = repository.NewRepository()
 )
 
-// get referral code "/referrals/{device_id}/create/{referral_code}"
+// Get referral code "/referrals/{device_id}/create/{referral_code}"
 func ReferralData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
 	var record entity.Device
@@ -54,7 +54,7 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-// get device by device_id "/referrals/{device_id}"
+// Get device by device_id "/referrals/{device_id}"
 func GetDevice(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
 	params := mux.Vars(request)
@@ -74,7 +74,7 @@ func GetDevice(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(record)
 }
 
-// get all devices "/referrals"
+// Get all devices "/referrals"
 func GetAllDevices(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
 	records, err := repo.FindAll()
@@ -85,4 +85,24 @@ func GetAllDevices(response http.ResponseWriter, request *http.Request) {
 	}
 	response.WriteHeader(http.StatusOK) // Send response
 	json.NewEncoder(response).Encode(records)
+}
+
+// Get Referred Counts "/referrals/{device_id}/counts"
+func GetReferredCounts(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-type", "application/json")
+	params := mux.Vars(request)
+	device_id := params["device_id"]
+	record, err := repo.FindDevice(device_id)
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(response).Encode(err)
+		return
+	}
+	if record == nil {
+		response.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(response).Encode("Device not found")
+		return
+	}
+	response.WriteHeader(http.StatusOK) // Send response
+	json.NewEncoder(response).Encode(len(record.ReferredIDS))
 }
