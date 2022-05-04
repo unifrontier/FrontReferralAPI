@@ -16,10 +16,10 @@ func main() {
 		fmt.Fprintln(w, "App Running...")
 	})
 
-	router.HandleFunc("/referrals/{device_id}/create/{referral_code}", ReferralData).Methods("POST")
-	router.HandleFunc("/referrals/{device_id}", GetDevice).Methods("GET")
-	router.HandleFunc("/referrals", GetAllDevices).Methods("GET")
-	router.HandleFunc("/referrals/{device_id}/counts", GetReferredCounts).Methods("GET")
+	router.HandleFunc("/api/v1/referral", ReferralData).Methods("POST")            // Create a new referral code
+	router.HandleFunc("/api/v1/referral", GetDevice).Methods("GET")                // Get device by device_id
+	router.HandleFunc("/api/v1/referrals", GetAllDevices).Methods("GET")           // Get all devices
+	router.HandleFunc("/api/v1/referral/counts", GetReferredCounts).Methods("GET") // Get referral counts
 	log.Println("Server listening on port", port)
 	log.Fatalln(http.ListenAndServe(port, router))
 	// log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))

@@ -11,22 +11,22 @@ import (
 )
 
 type DeviceRepository struct {
-	Save           func(record *entity.Device) error
-	FindByReferrer func(referrer_id string) (*entity.Device, error)
-	FindAll        func() ([]entity.Device, error)
-	Update         func(referrer_id string, device_id string)
-	FindDevice     func(device_id string) (*entity.Device, error)
+	Save             func(record *entity.Device) error
+	FindByReferrer   func(referrer_id string) (*entity.Device, error)
+	FindAll          func() ([]entity.Device, error)
+	Update           func(referrer_id string, device_id string)
+	FindDevice       func(device_id string) (*entity.Device, error)
 	CountReferredIDS func(device_id string) int
 }
 
 // NewRepository returns a new repository
 func NewRepository() DeviceRepository {
 	return DeviceRepository{
-		Save:           Save,
-		FindByReferrer: FindByReferrer,
-		FindAll:        FindAll,
-		Update:         Update,
-		FindDevice:     FindDevice,
+		Save:             Save,
+		FindByReferrer:   FindByReferrer,
+		FindAll:          FindAll,
+		Update:           Update,
+		FindDevice:       FindDevice,
 		CountReferredIDS: CountReferredIDS,
 	}
 }
@@ -54,6 +54,7 @@ func Save(record *entity.Device) error {
 func FindByReferrer(referrer_id string) (*entity.Device, error) {
 	ctx := context.Background()
 	client, err := firestore.NewClient(ctx, projectID)
+	fmt.Println("referrer_id: ", referrer_id)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}

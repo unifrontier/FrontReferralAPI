@@ -7,8 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 var (
@@ -19,15 +17,12 @@ var (
 func ReferralData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
 	var record entity.Device
-
-	params := mux.Vars(request) // Get params
-	fmt.Print(params)
-	device_id := params["device_id"]          // Get device_id
-	referrer_id := params["referral_code"]    // Get referrer_id
-	unique_id := referral_code.RandomString() // 6 digit random string referral code
-	record.DeviceID = device_id               // Serial Number of the device
-	record.UniqueID = unique_id               // Referral Code for particular user referral
-	record.ReferrerID = referrer_id           // Referred ID
+	device_id := request.FormValue("device_id")       // Get device_id from form
+	referrer_id := request.FormValue("referral_code") // Get referral_code from form
+	unique_id := referral_code.RandomString()         // 6 digit random string referral code
+	record.DeviceID = device_id                       // Serial Number of the device
+	record.UniqueID = unique_id                       // Referral Code for particular user referral
+	record.ReferrerID = referrer_id                   // Referred ID
 
 	existing_device, err := repo.FindDevice(device_id)
 	if err != nil {
@@ -57,8 +52,7 @@ func ReferralData(response http.ResponseWriter, request *http.Request) {
 // Get device by device_id "/referrals/{device_id}"
 func GetDevice(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
-	params := mux.Vars(request)
-	device_id := params["device_id"]
+	device_id := request.FormValue("device_id")
 	record, err := repo.FindDevice(device_id)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
@@ -90,8 +84,7 @@ func GetAllDevices(response http.ResponseWriter, request *http.Request) {
 // Get Referred Counts "/referrals/{device_id}/counts"
 func GetReferredCounts(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "application/json")
-	params := mux.Vars(request)
-	device_id := params["device_id"]
+	device_id := request.FormValue("device_id")
 	record, err := repo.FindDevice(device_id)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
