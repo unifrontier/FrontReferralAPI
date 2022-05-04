@@ -14,7 +14,6 @@ type DeviceRepository struct {
 	Save           func(record *entity.Device) error
 	FindByReferrer func(referrer_id string) (*entity.Device, error)
 	FindAll        func() ([]entity.Device, error)
-	IsExists       func(device_id string) bool
 	Update         func(referrer_id string, device_id string)
 	FindDevice     func(device_id string) (*entity.Device, error)
 }
@@ -25,7 +24,6 @@ func NewRepository() DeviceRepository {
 		Save:           Save,
 		FindByReferrer: FindByReferrer,
 		FindAll:        FindAll,
-		IsExists:       IsExists,
 		Update:         Update,
 		FindDevice:     FindDevice,
 	}
@@ -94,29 +92,6 @@ func FindAll() ([]entity.Device, error) {
 		records = append(records, record)
 	}
 	return records, nil
-}
-
-// check the device_id is exist or not
-func IsExists(device_id string) bool {
-	ctx := context.Background()
-	client, err := firestore.NewClient(ctx, projectID)
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
-	defer client.Close()
-
-	iter := client.Collection(collectionName).Where("DeviceID", "==", device_id).Documents(ctx)
-	for {
-		_, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			log.Fatalf("Failed to iterate: %v", err)
-		}
-		return true
-	}
-	return false
 }
 
 func Update(referrer_id string, device_id string) {

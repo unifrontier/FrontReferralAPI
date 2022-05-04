@@ -16,8 +16,9 @@ func main() {
 		fmt.Fprintln(w, "App Running...")
 	})
 
-	router.HandleFunc("/referrals/{device_id}/create", ReferralData).Methods("POST")
+	router.HandleFunc("/referrals/{device_id}/create/{referral_code}", ReferralData).Methods("POST")
 	router.HandleFunc("/referrals/{device_id}", GetDevice).Methods("GET")
+	router.HandleFunc("/referrals", GetAllDevices).Methods("GET")
 	log.Println("Server listening on port", port)
 	log.Fatalln(http.ListenAndServe(port, router))
 	// log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
