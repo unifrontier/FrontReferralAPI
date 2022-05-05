@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gofrontierreferrals",
+  "private_key_id": "e53ff8409e3a8e0fc6cc2597d967c5f9e1bf17de",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDelktAmk87kne1\nhHGMBXUe+OYZgfn8YeDSwziprG/bonoHoG2aGEIt3nR8Wb8x5AakSEsJGNDwL0kg\n0E4ELbAWDI6TR1wZEYgj0P0q+A5JCkPQYPjVmNNk4MCbFCyqE5bmoEcQBX54M80V\n7el2fFOmwTcim+EicuLTFrh0Qi/icH/qhfQtsCjrKdakVy3GKqwxNm3WD8lkbWCp\naSQR60NzHdHmBXb8jb5QyidRj4sSex5IS+/FVv5uPLXjtwR/9Dk8RI6GZkMkJUN0\njI/b9m0yfVgmXWCPYHNsILT8nJ3neU5kTTxKgnL/UwtjkL7yI13fT/P+3qFVWqsy\nCwdYcjoPAgMBAAECggEAZZjRMWQdnTHd/Ra+YyyMiH4QPP1UNuwQG/Nqlhu0lNok\n+/0wecDv2BLtNWMbf3C2zV6IDVdr6u2SYe1iZsrZ0D6cB0JvmaukacC3BdliX9lV\nGbRhb9FJUAa8MyyytFCrtInc1cXEM6ZlSkilIuVdo0QW3++pg7lPqgz5VWtugtp/\nuHL+fpwrl7J6WaXEBZgaYJD8gbtYrcawWvTVRBuq14ZZ7a6Uko/4UcpDg6hpyyH3\nohw/3I6orWeFKqKvbK4mrZSybiciCGeNXj2+eKceX//dQy324oL8MuGEJgdroXqa\nI/eSk/CjsivJFr2Ezpv+kWYI+eNZHUVGNMrUAC80WQKBgQD0ETA1ZqvW3cn/Bau4\nDRblZnJTCW38k/IufnTnRQtKlV/JxwOuGHqxp+w3SWSY2M4yTdx6KOHDL2BE0917\nTO2nJ5xN5r8cecyereiRJ58gHfNaZFr4k2UAx0OvyNfrfD/q4iAXjjv7wSp+kDA3\nZjQVK/w2mwPXuTLunQhyZI5mmQKBgQDpeEFdZAIDLJkBTO5lFl8Oq1iyX2Yb1FVe\nUlPtTjIOhCwrXwvl6yA3iqXc6frha9cdYgs+0N30Kp2NcXay8BjcPPZV6tFAJYVd\nj+69IBTQTa7ep0SY+Y6gbRxBVJVcedSo8GSjNKIbqkjjesZrtNFpJiuhJjeSzbCf\nSH0EzkaW5wKBgDwYk19CxaMlf1xdABhUmMOpgxLxKnTb1PEf0Bc2B/64Yxqi90QB\n4QwnheFjH/MGx1bZlyU5NcXCv5iS9mEq4wWamkEQRRR05S5ZMf+z2tmkpkwmk8PL\nPz5+0irRcGEaef6S6UYDjr+Bo74AMO8jKkXgS70CVGLkxia84dyQ6ANZAoGAevMS\ncS0mhidpWC78aI3Ud3Qy3JSywDsczfRLMHB6mfxvClQefvFI4RcJ7AHoVeglu9qT\nE3yJNnluyTsUiH06ilksXOixU7euuSwATOblLyGJ0sWBsZHS05dCRwFVOwMJxAH8\n7ZndOPZ/NhTFA5mQonAwj8gBgjUCK4/QDsTWlccCgYEAtptMlfg1y3vqwYqHGS2A\n63/sBCbzU+Y2aPy8/KqM679YPqNW7KhjswhHSktrEqABMWgOI5ZyaaeTuDI9wGIm\nosxdhCsNuAwa/qrLEBwIAdr0fwyGOEjVdaUI2TAHoPm71r/1xUbMaTjDbnrL8wxp\ntsl9BXM8Kau9eWdb4H+C+Eo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-cogr8@gofrontierreferrals.iam.gserviceaccount.com",
+  "client_id": "101073126032138181653",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-cogr8%40gofrontierreferrals.iam.gserviceaccount.com"
+}
