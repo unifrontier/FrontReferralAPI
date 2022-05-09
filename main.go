@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -23,5 +21,5 @@ func main() {
 	router.HandleFunc("/api/v1/referral/counts", GetReferredCounts).Methods("GET") // Get referral counts
 	// log.Println("Server listening on port", port)
 	// log.Fatalln(http.ListenAndServe(port, router))
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router)) // for production
+	// log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router)) // for production
 }
