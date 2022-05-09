@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -9,7 +10,7 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	// const port string = ":8000"
+	const port string = "8080"
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "App Running...")
@@ -22,4 +23,5 @@ func main() {
 	// log.Println("Server listening on port", port)
 	// log.Fatalln(http.ListenAndServe(port, router))
 	// log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router)) // for production
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
