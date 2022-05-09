@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,9 +12,9 @@ func main() {
 	router := mux.NewRouter()
 	// const port string = ":8000"
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "App Running...")
-	})
+	// router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Fprintln(w, "App Running...")
+	// })
 
 	router.HandleFunc("/api/v1/referral", ReferralData).Methods("POST")            // Create a new referral code
 	router.HandleFunc("/api/v1/referral", GetDevice).Methods("GET")                // Get device by device_id
