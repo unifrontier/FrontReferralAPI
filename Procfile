@@ -1,1 +1,1 @@
-web: frontreferralapi
+web: front-referral-api
