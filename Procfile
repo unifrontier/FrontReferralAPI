@@ -1,2 +1,1 @@
-web:
-FrontReferralAPI
+worker: FrontReferralAPI
