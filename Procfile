@@ -1,1 +1,1 @@
-web: bin/FrontReferralAPI
+web: FrontReferralAPI
