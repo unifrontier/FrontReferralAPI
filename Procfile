@@ -1,1 +1,1 @@
-web: referral
+web: frontier-referrals
