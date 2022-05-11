@@ -1,1 +1,1 @@
-web: FrontReferralAPI
+web: go run FrontReferralAPI/main.go
