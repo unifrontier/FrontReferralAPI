@@ -1,11 +1,11 @@
 package main
 
 import (
-	"FrontReferralAPI/entity"
-	"FrontReferralAPI/referral_code"
-	"FrontReferralAPI/repository"
 	"encoding/json"
 	"fmt"
+	"frontier-referrals/entity"
+	"frontier-referrals/referral_code"
+	"frontier-referrals/repository"
 	"net/http"
 )
 

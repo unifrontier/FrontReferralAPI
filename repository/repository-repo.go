@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"FrontReferralAPI/entity"
 	"context"
 	"fmt"
+	"frontier-referrals/entity"
 	"log"
 
 	"cloud.google.com/go/firestore"

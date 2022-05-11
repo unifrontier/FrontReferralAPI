@@ -1,4 +1,4 @@
-module FrontReferralAPI
+module frontier-referrals
 
 go 1.18
 
