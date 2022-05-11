@@ -20,7 +20,7 @@ func main() {
 	router.HandleFunc("/api/v1/referral/counts", GetReferredCounts).Methods("GET") // Get referral counts
 
 	if len(port) == 0 {
-		port = "8080"
+		port = "5000"
 	}
 	log.Println("Server listening on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
