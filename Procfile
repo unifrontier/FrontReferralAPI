@@ -1,1 +1,1 @@
-web: go run cmd/frontier-referrals/main.go
+web: frontier-referrals
