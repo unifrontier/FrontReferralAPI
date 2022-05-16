@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
-	router := mux.NewRouter()
 	port := os.Getenv("PORT")
+	router := mux.NewRouter()
 
 	router.HandleFunc("/", HomePage)
 
