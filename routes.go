@@ -115,3 +115,8 @@ func GetReferredCounts(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode("Referred Counts")
 	json.NewEncoder(response).Encode(len(record.ReferredIDS))
 }
+
+func HomePage(response http.ResponseWriter, request *http.Request) {
+	response.WriteHeader(http.StatusOK)
+	response.Write([]byte("Welcome to Referral API"))
+}
